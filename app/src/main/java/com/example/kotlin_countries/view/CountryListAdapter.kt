@@ -1,15 +1,19 @@
 package com.example.kotlin_countries.view
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin_countries.R
 import com.example.kotlin_countries.model.Country
+import com.example.kotlin_countries.util.getProgressDrawable
+import com.example.kotlin_countries.util.loadImage
 import kotlinx.android.synthetic.main.item_country.view.*
 
 class CountryListAdapter (var countries: ArrayList<Country>): RecyclerView.Adapter<CountryListAdapter.CountryViewHolder>(){
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateCountries(newCounties: List<Country>){
         countries.clear()
         countries.addAll(newCounties)
@@ -28,10 +32,15 @@ class CountryListAdapter (var countries: ArrayList<Country>): RecyclerView.Adapt
 
     class CountryViewHolder(view: View): RecyclerView.ViewHolder(view){
 
+        private val imageView = view.image
         private val countryName = view.name
+        private val countryCapital = view.capital
+        private val progressDrawable = getProgressDrawable(view.context)
 
         fun bind(country:Country){
             countryName.text = country.countryName
+            countryCapital.text = country.capital
+            imageView.loadImage(country.flag, progressDrawable)
         }
     }
 }

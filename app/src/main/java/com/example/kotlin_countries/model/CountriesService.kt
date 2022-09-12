@@ -7,19 +7,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class CountriesService {
 
-    private val BASE_URL = "https://raw.githubusercontent.com"
-    private val API: CountriesApi
-
-    init{
-        API = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(CountriesApi::class.java)
-    }
+    private val api: CountriesApi = Retrofit.Builder()
+        .baseUrl(BaseUrl)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build()
+        .create(CountriesApi::class.java)
 
     fun getCountries(): Single<List<Country>>{
-        return API.getCountries()
+        return api.getCountries()
+    }
+
+    companion object {
+        private const val BaseUrl: String = "https://raw.githubusercontent.com"
     }
 }
