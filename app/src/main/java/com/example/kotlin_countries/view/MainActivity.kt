@@ -5,29 +5,31 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kotlin_countries.R
+import com.example.kotlin_countries.databinding.ActivityMainBinding
 import com.example.kotlin_countries.viewmodel.ListViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     lateinit var viewModel: ListViewModel
     private val countriesAdapter = CountryListAdapter(arrayListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding= ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         viewModel = ViewModelProvider(this)[ListViewModel::class.java]
         viewModel.refresh()
 
-        countriesList.apply {
+        binding.countriesList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = countriesAdapter
         }
 
-        swipeRefreshLayout.setOnRefreshListener {
-            swipeRefreshLayout.isRefreshing = false
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = false
             viewModel.refresh()
         }
 
@@ -37,23 +39,23 @@ class MainActivity : AppCompatActivity() {
     fun observeViewModel(){
         viewModel.countries.observe(this) { countries ->
             countries?.let {
-                countriesList.visibility = View.VISIBLE
+                binding.countriesList.visibility = View.VISIBLE
                 countriesAdapter.updateCountries(it)
             }
         }
 
         viewModel.countryLoadError.observe(this){isError->
             isError?.let{
-                list_error.visibility = if(it) View.VISIBLE else View.GONE
+                binding.listError.visibility = if(it) View.VISIBLE else View.GONE
             }
         }
 
         viewModel.loading.observe(this) { isLoading ->
             isLoading.let{
-                loading_view.visibility = if(it) View.VISIBLE else View.GONE
+                binding.loadingView.visibility = if(it) View.VISIBLE else View.GONE
                 if(it){
-                    list_error.visibility = View.GONE
-                    countriesList.visibility = View.GONE
+                    binding.listError.visibility = View.GONE
+                    binding.countriesList.visibility = View.GONE
                 }
             }
         }
