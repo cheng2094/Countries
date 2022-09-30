@@ -1,6 +1,7 @@
 package com.example.kotlin_countries.model
 
 import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface CountriesApi {

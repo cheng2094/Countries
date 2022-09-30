@@ -32,6 +32,8 @@ class ListViewModel: ViewModel(){
 
     private fun fetchCountries(){
         loading.value = true
+
+        //RXJAVA
         disposable.addAll(
             countriesService.getCountries()
                 .subscribeOn(Schedulers.newThread())
@@ -49,7 +51,7 @@ class ListViewModel: ViewModel(){
                     }
 
                 })
-        )
+         )
     }
 
     override fun onCleared() {

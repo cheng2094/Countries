@@ -3,6 +3,7 @@ package com.example.kotlin_countries.model
 
 import com.example.kotlin_countries.di.DaggerApiComponent
 import io.reactivex.Single
+import retrofit2.Response
 import javax.inject.Inject
 
 class CountriesService {
